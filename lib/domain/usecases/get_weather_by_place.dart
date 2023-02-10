@@ -2,17 +2,24 @@ import 'package:seven_days_weather/core/error/failures.dart';
 import 'package:dartz/dartz.dart';
 import 'package:seven_days_weather/core/usecases/usecase.dart';
 import 'package:seven_days_weather/domain/entities/place_weather.dart';
+import 'package:seven_days_weather/domain/repositories/weather_repository.dart';
 
 class GetWeatherByPlace
     implements UseCase<PlaceWeather, GetWeatherByPlaceParams> {
+  WeatherRepository weatherRepository;
+
+  GetWeatherByPlace({required this.weatherRepository});
+
   @override
-  Future<Either<Failure, PlaceWeather>> call(GetWeatherByPlaceParams params) {
-    throw UnimplementedError();
+  Future<Either<Failure, PlaceWeather>> call(
+      GetWeatherByPlaceParams params) async {
+    return await weatherRepository.getWeatherByPlace(
+        lat: params.lat, lon: params.lon);
   }
 }
 
 class GetWeatherByPlaceParams {
-  String lat;
-  String lon;
+  double lat;
+  double lon;
   GetWeatherByPlaceParams({required this.lat, required this.lon});
 }

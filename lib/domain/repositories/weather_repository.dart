@@ -4,5 +4,5 @@ import 'package:seven_days_weather/domain/entities/place_weather.dart';
 
 abstract class WeatherRepository {
   Future<Either<Failure, PlaceWeather>> getWeatherByPlace(
-      {required String lat, required String lon});
+      {required double lat, required double lon});
 }
