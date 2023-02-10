@@ -1,6 +1,5 @@
 import 'package:dio/dio.dart';
 import 'package:seven_days_weather/data/models/place_weather_model.dart';
-import 'package:seven_days_weather/domain/entities/place_weather.dart';
 
 abstract class WeatherRemoteDatasource {
   Future<PlaceWeatherModel> getWeatherByPlace(double lat, double lon);
