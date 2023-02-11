@@ -16,3 +16,5 @@ class AddPlace extends PlacesEvent {
   final Place place;
   const AddPlace({required this.place});
 }
+
+class ClearSearch extends PlacesEvent {}

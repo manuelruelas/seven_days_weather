@@ -13,7 +13,9 @@ class PlacesRepositoryImpl implements PlacesRepository {
     try {
       final places = await placesRemoteDatasource.getPlaceList(query: query);
       return Right(places);
-    } catch (e) {
+    } catch (e, s) {
+      print(e);
+      print(s);
       return Left(ServerFailure());
     }
   }

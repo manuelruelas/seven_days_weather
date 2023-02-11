@@ -39,6 +39,9 @@ dependencies:
   go_router: ^6.0.6
   get_it: ^7.2.0
   flutter_dotenv: ^5.0.2 
+  rxdart: ^0.27.7
+  stream_transform: ^2.1.0
+  bloc_concurrency: ^0.2.1
 
 dev_dependencies:
   flutter_test:

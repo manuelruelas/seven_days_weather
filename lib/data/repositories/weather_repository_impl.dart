@@ -1,5 +1,5 @@
 import 'package:seven_days_weather/data/datasources/remote/weather_remote_datasource.dart';
-import 'package:seven_days_weather/domain/entities/place_weather.dart';
+import 'package:seven_days_weather/domain/entities/coordinates_weather.dart';
 import 'package:seven_days_weather/core/error/failures.dart';
 import 'package:dartz/dartz.dart';
 import 'package:seven_days_weather/domain/repositories/weather_repository.dart';
@@ -16,7 +16,8 @@ class WeatherRepositoryImpl implements WeatherRepository {
       final placeWeather =
           await weatherRemoteDatasource.getWeatherByPlace(lat, lon);
       return Right(placeWeather);
-    } catch (e) {
+    } catch (e, s) {
+      print(s);
       return Left(ServerFailure());
     }
   }

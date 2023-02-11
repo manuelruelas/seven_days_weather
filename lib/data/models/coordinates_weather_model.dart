@@ -1,27 +1,21 @@
 import 'package:seven_days_weather/domain/entities/current_weather.dart';
 import 'package:seven_days_weather/domain/entities/daily_weather.dart';
-import 'package:seven_days_weather/domain/entities/place_weather.dart';
+import 'package:seven_days_weather/domain/entities/coordinates_weather.dart';
 
 class CoordinatesWeatherModel extends CoordinatesWeather {
   CoordinatesWeatherModel({
-    required double lat,
-    required double lon,
-    required String timezone,
-    required int timezoneOffset,
-    required Current current,
-    required List<DailyWeather> daily,
-  }) : super(
-            lat: lat,
-            lon: lon,
-            timezone: timezone,
-            timezoneOffset: timezoneOffset,
-            current: current,
-            daily: daily);
+    required super.lat,
+    required super.lon,
+    required super.timezone,
+    required super.timezoneOffset,
+    required super.current,
+    required super.daily,
+  });
 
   factory CoordinatesWeatherModel.fromJson(Map<String, dynamic> json) =>
       CoordinatesWeatherModel(
-        lat: json["lat"]?.toDouble(),
-        lon: json["lon"]?.toDouble(),
+        lat: json["lat"],
+        lon: json["lon"],
         timezone: json["timezone"],
         timezoneOffset: json["timezone_offset"],
         current: Current.fromJson(json["current"]),

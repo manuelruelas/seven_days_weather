@@ -17,80 +17,101 @@ class PlacesScreen extends StatelessWidget {
       floatingActionButton: FloatingActionButton(
           child: Icon(Icons.add),
           onPressed: () {
-            showModalBottomSheet(
-                shape: RoundedRectangleBorder(
-                    borderRadius:
-                        BorderRadius.vertical(top: Radius.circular(20))),
-                context: context,
-                builder: (context) {
-                  return BlocProvider.value(
-                    value: sl<PlacesBloc>(),
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 16.0, vertical: 24.0),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            "Ingrese su proximo destino",
-                            style: Theme.of(context).textTheme.titleLarge,
-                          ),
-                          const SizedBox(
-                            height: 12.0,
-                          ),
-                          CupertinoSearchTextField(
-                            onChanged: (value) => sl<PlacesBloc>()
-                                .add(SearchPlaces(query: value)),
-                          ),
-                          BlocBuilder<PlacesBloc, PlacesState>(
-                            builder: (context, state) {
-                              return Expanded(
-                                child: ListView.builder(
-                                    itemCount: state.placesFound.length,
-                                    itemBuilder: (context, index) {
-                                      return PlaceRow(
-                                        place: state.placesFound[index],
-                                        onPressed: () {
-                                          context.pop();
-                                          context
-                                              .read<PlacesBloc>()
-                                              .add(AddPlace(
-                                                place: state.placesFound[index],
-                                              ));
-                                        },
-                                      );
-                                    }),
-                              );
-                            },
-                          ),
-                        ],
-                      ),
-                    ),
-                  );
-                });
+            showAddPlaceBottomSheet(context);
           }),
       appBar: AppBar(
-        title: Text(
+        title: const Text(
           "Lugares",
         ),
-        shape: RoundedRectangleBorder(
+        shape: const RoundedRectangleBorder(
             borderRadius: BorderRadius.only(
                 bottomLeft: Radius.circular(20),
                 bottomRight: Radius.circular(20))),
       ),
-      body: SafeArea(child: BlocBuilder<PlacesBloc, PlacesState>(
-        builder: (context, state) {
-          return Padding(
-            padding: const EdgeInsets.fromLTRB(16, 0, 16, 0),
-            child: ListView.builder(
-              itemCount: state.selectedPlaces.length,
-              itemBuilder: ((context, index) {
-                return WeatherRow();
-              }),
+      body: SafeArea(
+        child: BlocBuilder<PlacesBloc, PlacesState>(
+          builder: (context, state) {
+            return Stack(
+              children: [
+                Visibility(
+                  visible: state.isLoading,
+                  child: Column(
+                    children: [
+                      const Center(
+                        child: CircularProgressIndicator(),
+                      )
+                    ],
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(16, 0, 16, 0),
+                  child: ListView.builder(
+                    itemCount: state.selectedPlaces.length,
+                    itemBuilder: ((context, index) {
+                      return WeatherRow(
+                        placeWeather: state.selectedPlaces[index],
+                      );
+                    }),
+                  ),
+                ),
+              ],
+            );
+          },
+        ),
+      ),
+    );
+  }
+
+  Future<dynamic> showAddPlaceBottomSheet(BuildContext context) {
+    return showModalBottomSheet(
+        shape: const RoundedRectangleBorder(
+            borderRadius: BorderRadius.vertical(top: Radius.circular(20))),
+        context: context,
+        builder: (context) {
+          return BlocProvider.value(
+            value: sl<PlacesBloc>(),
+            child: Padding(
+              padding:
+                  const EdgeInsets.symmetric(horizontal: 16.0, vertical: 24.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    "Ingrese su proximo destino",
+                    style: Theme.of(context).textTheme.titleLarge,
+                  ),
+                  const SizedBox(
+                    height: 12.0,
+                  ),
+                  CupertinoSearchTextField(
+                    onChanged: (value) =>
+                        sl<PlacesBloc>().add(SearchPlaces(query: value)),
+                  ),
+                  BlocBuilder<PlacesBloc, PlacesState>(
+                    builder: (context, state) {
+                      return Expanded(
+                        child: ListView.builder(
+                            itemCount: state.placesFound.length,
+                            itemBuilder: (context, index) {
+                              return PlaceRow(
+                                place: state.placesFound[index],
+                                onPressed: () {
+                                  context.pop();
+                                  context.read<PlacesBloc>()
+                                    ..add(AddPlace(
+                                      place: state.placesFound[index],
+                                    ))
+                                    ..add(ClearSearch());
+                                },
+                              );
+                            }),
+                      );
+                    },
+                  ),
+                ],
+              ),
             ),
           );
-        },
-      )),
-    );
+        });
   }
 }

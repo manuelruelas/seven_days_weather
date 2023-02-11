@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:seven_days_weather/domain/entities/place_weather.dart';
 
 class WeatherRow extends StatelessWidget {
+  final PlaceWeather placeWeather;
   const WeatherRow({
     super.key,
+    required this.placeWeather,
   });
 
   @override
@@ -31,15 +34,17 @@ class WeatherRow extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      "Toronto",
+                      placeWeather.place.display,
                       style: Theme.of(context).textTheme.headlineSmall,
                     ),
                     Text(
-                      "Nublado",
+                      placeWeather
+                          .coordinatesWeather.current.weather.first.description
+                          .toUpperCase(),
                       style: Theme.of(context).textTheme.labelLarge,
                     ),
                     Text(
-                      "24º",
+                      "${placeWeather.coordinatesWeather.current.temp.toInt()}º",
                       style: Theme.of(context)
                           .textTheme
                           .headlineLarge
@@ -47,7 +52,7 @@ class WeatherRow extends StatelessWidget {
                     )
                   ],
                 ),
-                Spacer(),
+                const Spacer(),
                 Image.asset(
                   "assets/images/sun.png",
                   width: 80,

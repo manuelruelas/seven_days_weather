@@ -11,7 +11,6 @@ class DailyWeather {
     required this.moonset,
     required this.moonPhase,
     required this.temp,
-    required this.feelsLike,
     required this.pressure,
     required this.humidity,
     required this.dewPoint,
@@ -20,7 +19,7 @@ class DailyWeather {
     required this.weather,
     required this.clouds,
     required this.pop,
-    required this.rain,
+    this.rain,
     required this.uvi,
   });
 
@@ -31,7 +30,6 @@ class DailyWeather {
   int moonset;
   double moonPhase;
   Temperature temp;
-  FeelsLike feelsLike;
   int pressure;
   int humidity;
   double dewPoint;
@@ -40,7 +38,7 @@ class DailyWeather {
   List<Weather> weather;
   int clouds;
   double pop;
-  double rain;
+  double? rain;
   double uvi;
 
   factory DailyWeather.fromJson(Map<String, dynamic> json) => DailyWeather(
@@ -49,20 +47,19 @@ class DailyWeather {
         sunset: json["sunset"],
         moonrise: json["moonrise"],
         moonset: json["moonset"],
-        moonPhase: json["moon_phase"]?.toDouble(),
+        moonPhase: json["moon_phase"],
         temp: Temperature.fromJson(json["temp"]),
-        feelsLike: FeelsLike.fromJson(json["feels_like"]),
         pressure: json["pressure"],
         humidity: json["humidity"],
-        dewPoint: json["dew_point"]?.toDouble(),
-        windSpeed: json["wind_speed"]?.toDouble(),
+        dewPoint: json["dew_point"].toDouble(),
+        windSpeed: json["wind_speed"],
         windDeg: json["wind_deg"],
         weather:
             List<Weather>.from(json["weather"].map((x) => Weather.fromJson(x))),
         clouds: json["clouds"],
-        pop: json["pop"]?.toDouble(),
-        rain: json["rain"]?.toDouble(),
-        uvi: json["uvi"]?.toDouble(),
+        pop: json["pop"].toDouble(),
+        rain: json["rain"],
+        uvi: json["uvi"].toDouble(),
       );
 
   Map<String, dynamic> toJson() => {
@@ -73,7 +70,6 @@ class DailyWeather {
         "moonset": moonset,
         "moon_phase": moonPhase,
         "temp": temp.toJson(),
-        "feels_like": feelsLike.toJson(),
         "pressure": pressure,
         "humidity": humidity,
         "dew_point": dewPoint,
