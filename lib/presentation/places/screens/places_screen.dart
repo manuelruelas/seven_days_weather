@@ -24,45 +24,42 @@ class PlacesScreen extends StatelessWidget {
           "Clima",
         ),
       ),
-      body: SafeArea(
-        child: BlocBuilder<PlacesBloc, PlacesState>(
-          builder: (context, state) {
-            return Stack(
-              children: [
-                state.selectedPlaces.isNotEmpty
-                    ? Padding(
-                        padding: const EdgeInsets.fromLTRB(16, 0, 16, 0),
-                        child: ListView.builder(
-                          itemCount: state.selectedPlaces.length,
-                          itemBuilder: ((context, index) {
-                            return WeatherRow(
-                              placeWeather: state.selectedPlaces[index],
-                              onDismissed: (direction) {
-                                sl<PlacesBloc>().add(RemoveItem(index: index));
-                              },
-                            );
-                          }),
-                        ),
-                      )
-                    : const EmptyPlaces(),
-                Visibility(
-                  visible: state.isLoading,
-                  child: const Opacity(
-                    opacity: 0.8,
-                    child:
-                        ModalBarrier(dismissible: false, color: Colors.white),
-                  ),
+      body: BlocBuilder<PlacesBloc, PlacesState>(
+        builder: (context, state) {
+          return Stack(
+            children: [
+              state.selectedPlaces.isNotEmpty
+                  ? Padding(
+                      padding: const EdgeInsets.fromLTRB(16, 0, 16, 0),
+                      child: ListView.builder(
+                        itemCount: state.selectedPlaces.length,
+                        itemBuilder: ((context, index) {
+                          return WeatherRow(
+                            placeWeather: state.selectedPlaces[index],
+                            onDismissed: (direction) {
+                              sl<PlacesBloc>().add(RemoveItem(index: index));
+                            },
+                          );
+                        }),
+                      ),
+                    )
+                  : const EmptyPlaces(),
+              Visibility(
+                visible: state.isLoading,
+                child: const Opacity(
+                  opacity: 0.8,
+                  child: ModalBarrier(dismissible: false, color: Colors.white),
                 ),
-                Visibility(
-                  visible: state.isLoading,
-                  child: const Center(
-                    child: CircularProgressIndicator(),
-                  ),
+              ),
+              Visibility(
+                visible: state.isLoading,
+                child: const Center(
+                  child: CircularProgressIndicator(),
                 ),
-              ],
-            );
-          },
-        ),
+              ),
+            ],
+          );
+        },
       ),
     );
   }
