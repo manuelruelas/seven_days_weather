@@ -1,3 +1,4 @@
+import 'package:intl/intl.dart';
 import 'package:seven_days_weather/domain/entities/feels_like.dart';
 import 'package:seven_days_weather/domain/entities/temperature.dart';
 import 'package:seven_days_weather/domain/entities/weather.dart';
@@ -41,6 +42,9 @@ class DailyWeather {
   double? rain;
   double uvi;
 
+  String get date => DateFormat("dd/MM")
+      .format(DateTime.fromMillisecondsSinceEpoch(dt * 1000, isUtc: true));
+
   factory DailyWeather.fromJson(Map<String, dynamic> json) => DailyWeather(
         dt: json["dt"],
         sunrise: json["sunrise"],
@@ -52,7 +56,7 @@ class DailyWeather {
         pressure: json["pressure"],
         humidity: json["humidity"],
         dewPoint: json["dew_point"].toDouble(),
-        windSpeed: json["wind_speed"],
+        windSpeed: json["wind_speed"].toDouble(),
         windDeg: json["wind_deg"],
         weather:
             List<Weather>.from(json["weather"].map((x) => Weather.fromJson(x))),

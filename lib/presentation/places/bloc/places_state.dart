@@ -31,4 +31,6 @@ class PlacesState extends Equatable {
 
 class PlacesInitial extends PlacesState {}
 
+class PlacesNotEmpty extends PlacesState {}
+
 class PlacesError extends PlacesState {}

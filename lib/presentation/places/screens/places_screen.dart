@@ -15,43 +15,45 @@ class PlacesScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       floatingActionButton: FloatingActionButton(
-          child: Icon(Icons.add),
+          child: const Icon(Icons.add),
           onPressed: () {
             showAddPlaceBottomSheet(context);
           }),
       appBar: AppBar(
         title: const Text(
-          "Lugares",
+          "Clima",
         ),
-        shape: const RoundedRectangleBorder(
-            borderRadius: BorderRadius.only(
-                bottomLeft: Radius.circular(20),
-                bottomRight: Radius.circular(20))),
       ),
       body: SafeArea(
         child: BlocBuilder<PlacesBloc, PlacesState>(
           builder: (context, state) {
             return Stack(
               children: [
+                state.selectedPlaces.isNotEmpty
+                    ? Padding(
+                        padding: const EdgeInsets.fromLTRB(16, 0, 16, 0),
+                        child: ListView.builder(
+                          itemCount: state.selectedPlaces.length,
+                          itemBuilder: ((context, index) {
+                            return WeatherRow(
+                              placeWeather: state.selectedPlaces[index],
+                            );
+                          }),
+                        ),
+                      )
+                    : EmptyPlaces(),
                 Visibility(
                   visible: state.isLoading,
-                  child: Column(
-                    children: [
-                      const Center(
-                        child: CircularProgressIndicator(),
-                      )
-                    ],
+                  child: const Opacity(
+                    opacity: 0.8,
+                    child:
+                        ModalBarrier(dismissible: false, color: Colors.white),
                   ),
                 ),
-                Padding(
-                  padding: const EdgeInsets.fromLTRB(16, 0, 16, 0),
-                  child: ListView.builder(
-                    itemCount: state.selectedPlaces.length,
-                    itemBuilder: ((context, index) {
-                      return WeatherRow(
-                        placeWeather: state.selectedPlaces[index],
-                      );
-                    }),
+                Visibility(
+                  visible: state.isLoading,
+                  child: const Center(
+                    child: CircularProgressIndicator(),
                   ),
                 ),
               ],
@@ -113,5 +115,25 @@ class PlacesScreen extends StatelessWidget {
             ),
           );
         });
+  }
+}
+
+class EmptyPlaces extends StatelessWidget {
+  const EmptyPlaces({
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Center(
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Image.asset("assets/images/emptybox.png"),
+          const Text("No hay ciudades seleccionadas."),
+          const Text("Agregue una desde el boton de +"),
+        ],
+      ),
+    );
   }
 }

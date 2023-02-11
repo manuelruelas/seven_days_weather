@@ -16,8 +16,7 @@ class WeatherRepositoryImpl implements WeatherRepository {
       final placeWeather =
           await weatherRemoteDatasource.getWeatherByPlace(lat, lon);
       return Right(placeWeather);
-    } catch (e, s) {
-      print(s);
+    } catch (e) {
       return Left(ServerFailure());
     }
   }

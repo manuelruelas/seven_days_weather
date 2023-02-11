@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:seven_days_weather/domain/entities/daily_weather.dart';
 import 'package:seven_days_weather/domain/entities/place_weather.dart';
 
 class WeatherRow extends StatelessWidget {
@@ -25,8 +26,9 @@ class WeatherRow extends StatelessWidget {
         ),
       ),
       child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
+        padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 16.0),
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Row(
               children: [
@@ -53,15 +55,75 @@ class WeatherRow extends StatelessWidget {
                   ],
                 ),
                 const Spacer(),
-                Image.asset(
-                  "assets/images/sun.png",
+                Image.network(
+                  placeWeather.coordinatesWeather.iconUrl,
                   width: 80,
                   height: 80,
                 )
               ],
             ),
+            Divider(
+              color: Colors.blue[100],
+            ),
+            Text(
+              "Proximos 7 dias",
+              style: Theme.of(context).textTheme.bodyLarge,
+            ),
+            const SizedBox(
+              height: 10,
+            ),
+            SizedBox(
+              height: 110,
+              width: double.infinity,
+              child: ListView.separated(
+                physics: const PageScrollPhysics(),
+                scrollDirection: Axis.horizontal,
+                itemCount: placeWeather.coordinatesWeather.daily.length,
+                separatorBuilder: (context, index) {
+                  return Container(
+                    width: 1,
+                    color: Colors.blue[100],
+                  );
+                },
+                itemBuilder: (context, index) {
+                  return DailyWeatherView(
+                      dailyWeather:
+                          placeWeather.coordinatesWeather.daily[index]);
+                },
+              ),
+            ),
           ],
         ),
+      ),
+    );
+  }
+}
+
+class DailyWeatherView extends StatelessWidget {
+  const DailyWeatherView({
+    super.key,
+    required this.dailyWeather,
+  });
+
+  final DailyWeather dailyWeather;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      margin: const EdgeInsets.symmetric(horizontal: 20.0),
+      child: Column(
+        children: [
+          Text(
+            dailyWeather.date,
+            style: Theme.of(context).textTheme.labelLarge,
+          ),
+          Image.network(
+            dailyWeather.weather.first.iconUrl,
+            height: 50.0,
+          ),
+          Text("Máx:${dailyWeather.temp.max.toStringAsFixed(0)}º"),
+          Text("Mín:${dailyWeather.temp.min.toStringAsFixed(0)}º"),
+        ],
       ),
     );
   }

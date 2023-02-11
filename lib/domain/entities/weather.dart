@@ -11,6 +11,8 @@ class Weather {
   String description;
   String icon;
 
+  String get iconUrl => "http://openweathermap.org/img/wn/$icon@4x.png";
+
   factory Weather.fromJson(Map<String, dynamic> json) => Weather(
         id: json["id"],
         main: json["main"],

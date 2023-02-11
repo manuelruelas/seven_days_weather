@@ -42,7 +42,7 @@ dependencies:
   rxdart: ^0.27.7
   stream_transform: ^2.1.0
   bloc_concurrency: ^0.2.1
-
+  intl: ^0.18.0
 dev_dependencies:
   flutter_test:
     sdk: flutter
