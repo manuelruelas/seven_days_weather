@@ -37,6 +37,9 @@ class PlacesScreen extends StatelessWidget {
                           itemBuilder: ((context, index) {
                             return WeatherRow(
                               placeWeather: state.selectedPlaces[index],
+                              onDismissed: (direction) {
+                                sl<PlacesBloc>().add(RemoveItem(index: index));
+                              },
                             );
                           }),
                         ),

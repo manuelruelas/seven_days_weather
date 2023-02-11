@@ -18,3 +18,9 @@ class AddPlace extends PlacesEvent {
 }
 
 class ClearSearch extends PlacesEvent {}
+
+class RemoveItem extends PlacesEvent {
+  final int index;
+
+  const RemoveItem({required this.index});
+}

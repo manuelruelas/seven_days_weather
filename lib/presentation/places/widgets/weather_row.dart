@@ -4,95 +4,112 @@ import 'package:seven_days_weather/domain/entities/place_weather.dart';
 
 class WeatherRow extends StatelessWidget {
   final PlaceWeather placeWeather;
-  const WeatherRow({
-    super.key,
-    required this.placeWeather,
-  });
+  final Function(DismissDirection direction)? onDismissed;
+  const WeatherRow({super.key, required this.placeWeather, this.onDismissed});
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(20),
-        border: Border.all(color: Colors.grey[200]!, width: 3.0),
-        color: Colors.blue[100],
-        gradient: LinearGradient(
-          colors: [
-            Colors.blue,
-            Colors.blue[50]!,
-          ],
-          begin: Alignment.bottomRight,
-          end: Alignment.topLeft,
+    return Dismissible(
+      key: Key(placeWeather.place.id.toString()),
+      onDismissed: (direction) {
+        if (onDismissed == null) return;
+        onDismissed!(direction);
+      },
+      child: Container(
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(20),
+          border: Border.all(color: Colors.grey[200]!, width: 3.0),
+          color: Colors.blue[100],
+          gradient: LinearGradient(
+            colors: [
+              Colors.blue,
+              Colors.blue[50]!,
+            ],
+            begin: Alignment.bottomRight,
+            end: Alignment.topLeft,
+          ),
         ),
-      ),
-      child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 16.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Row(
-              children: [
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      placeWeather.place.display,
-                      style: Theme.of(context).textTheme.headlineSmall,
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 16.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Row(
+                children: [
+                  Expanded(
+                    flex: 5,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          placeWeather.place.display,
+                          style: Theme.of(context).textTheme.headlineSmall,
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                        Text(
+                          placeWeather.place.state,
+                          style: Theme.of(context).textTheme.bodySmall,
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                        const SizedBox(
+                          height: 10.0,
+                        ),
+                        Text(
+                          placeWeather.coordinatesWeather.current.weather.first
+                              .description
+                              .toUpperCase(),
+                          style: Theme.of(context).textTheme.labelLarge,
+                        ),
+                        Text(
+                          "${placeWeather.coordinatesWeather.current.temp.toInt()}º",
+                          style: Theme.of(context)
+                              .textTheme
+                              .headlineLarge
+                              ?.copyWith(color: Colors.black),
+                        )
+                      ],
                     ),
-                    Text(
-                      placeWeather
-                          .coordinatesWeather.current.weather.first.description
-                          .toUpperCase(),
-                      style: Theme.of(context).textTheme.labelLarge,
-                    ),
-                    Text(
-                      "${placeWeather.coordinatesWeather.current.temp.toInt()}º",
-                      style: Theme.of(context)
-                          .textTheme
-                          .headlineLarge
-                          ?.copyWith(color: Colors.black),
-                    )
-                  ],
-                ),
-                const Spacer(),
-                Image.network(
-                  placeWeather.coordinatesWeather.iconUrl,
-                  width: 80,
-                  height: 80,
-                )
-              ],
-            ),
-            Divider(
-              color: Colors.blue[100],
-            ),
-            Text(
-              "Proximos 7 dias",
-              style: Theme.of(context).textTheme.bodyLarge,
-            ),
-            const SizedBox(
-              height: 10,
-            ),
-            SizedBox(
-              height: 110,
-              width: double.infinity,
-              child: ListView.separated(
-                physics: const PageScrollPhysics(),
-                scrollDirection: Axis.horizontal,
-                itemCount: placeWeather.coordinatesWeather.daily.length,
-                separatorBuilder: (context, index) {
-                  return Container(
-                    width: 1,
-                    color: Colors.blue[100],
-                  );
-                },
-                itemBuilder: (context, index) {
-                  return DailyWeatherView(
-                      dailyWeather:
-                          placeWeather.coordinatesWeather.daily[index]);
-                },
+                  ),
+                  Spacer(),
+                  Image.network(
+                    placeWeather.coordinatesWeather.iconUrl,
+                    width: 80,
+                    height: 80,
+                  )
+                ],
               ),
-            ),
-          ],
+              Divider(
+                color: Colors.blue[100],
+              ),
+              Text(
+                "Proximos 7 dias",
+                style: Theme.of(context).textTheme.bodyLarge,
+              ),
+              const SizedBox(
+                height: 10,
+              ),
+              SizedBox(
+                height: 110,
+                width: double.infinity,
+                child: ListView.separated(
+                  physics: const PageScrollPhysics(),
+                  scrollDirection: Axis.horizontal,
+                  itemCount: placeWeather.coordinatesWeather.daily.length,
+                  separatorBuilder: (context, index) {
+                    return Container(
+                      width: 1,
+                      color: Colors.blue[100],
+                    );
+                  },
+                  itemBuilder: (context, index) {
+                    return DailyWeatherView(
+                        dailyWeather:
+                            placeWeather.coordinatesWeather.daily[index]);
+                  },
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );

@@ -14,12 +14,14 @@ part 'places_state.dart';
 class PlacesBloc extends Bloc<PlacesEvent, PlacesState> {
   GetPlaces getPlaces;
   GetWeatherByPlace getWeatherByPlace;
+
   PlacesBloc({required this.getPlaces, required this.getWeatherByPlace})
       : super(PlacesInitial()) {
     on<SearchPlaces>(_onSearchPlaces,
         transformer: debounceTransformer(Duration(milliseconds: 400)));
     on<AddPlace>(_onAddPlaces);
     on<ClearSearch>(_onClearSearch);
+    on<RemoveItem>(_onRemoveItem);
   }
 
   FutureOr<void> _onSearchPlaces(SearchPlaces event, emit) async {
@@ -51,5 +53,10 @@ class PlacesBloc extends Bloc<PlacesEvent, PlacesState> {
     return (events, mapper) {
       return events.debounceTime(duration).switchMap(mapper);
     };
+  }
+
+  FutureOr<void> _onRemoveItem(RemoveItem event, Emitter<PlacesState> emit) {
+    emit(state.copyWith(
+        selectedPlaces: List.of(state.selectedPlaces)..removeAt(event.index)));
   }
 }
