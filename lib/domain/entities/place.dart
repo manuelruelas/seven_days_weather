@@ -1,4 +1,6 @@
-class Place {
+import 'package:equatable/equatable.dart';
+
+class Place extends Equatable {
   Place({
     required this.id,
     required this.display,
@@ -21,6 +23,10 @@ class Place {
 
   double get latitude => double.tryParse(lat!) ?? 0.0;
   double get longitude => double.tryParse(long!) ?? 0.0;
+
+  @override
+  List<Object?> get props =>
+      [id, display, cityName, state, country, lat, long, resultType];
 }
 
 enum PlaceType { city, terminal, airport }

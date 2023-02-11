@@ -4,6 +4,7 @@ class PlacesState extends Equatable {
   final bool isLoading;
   final List<Place> placesFound;
   final List<PlaceWeather> selectedPlaces;
+
   const PlacesState({
     this.selectedPlaces = const [],
     this.placesFound = const [],
