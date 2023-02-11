@@ -29,7 +29,7 @@ class PlaceModel extends Place {
         country: json["country"],
         lat: json["lat"],
         long: json["long"],
-        resultType: json["result_type"],
+        resultType: PlaceType.values.byName(json["result_type"]),
         popularity: json["popularity"],
         sortCriteria: json["sort_criteria"]?.toDouble(),
       );

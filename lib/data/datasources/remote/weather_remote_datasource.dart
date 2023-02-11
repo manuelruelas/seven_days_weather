@@ -2,7 +2,7 @@ import 'package:dio/dio.dart';
 import 'package:seven_days_weather/data/models/place_weather_model.dart';
 
 abstract class WeatherRemoteDatasource {
-  Future<PlaceWeatherModel> getWeatherByPlace(double lat, double lon);
+  Future<CoordinatesWeatherModel> getWeatherByPlace(double lat, double lon);
 }
 
 class WeatherRemoteDataSourceImpl implements WeatherRemoteDatasource {
@@ -11,13 +11,14 @@ class WeatherRemoteDataSourceImpl implements WeatherRemoteDatasource {
   WeatherRemoteDataSourceImpl({required this.client});
 
   @override
-  Future<PlaceWeatherModel> getWeatherByPlace(double lat, double lon) async {
+  Future<CoordinatesWeatherModel> getWeatherByPlace(
+      double lat, double lon) async {
     final response = await client.get('/onecall', queryParameters: {
       "lat": lat,
       "lon": lon,
       "exclude": ["minutely,hourly,alerts"],
       "appid": "",
     });
-    return PlaceWeatherModel.fromJson(response.data);
+    return CoordinatesWeatherModel.fromJson(response.data);
   }
 }

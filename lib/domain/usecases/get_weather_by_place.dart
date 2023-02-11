@@ -5,13 +5,13 @@ import 'package:seven_days_weather/domain/entities/place_weather.dart';
 import 'package:seven_days_weather/domain/repositories/weather_repository.dart';
 
 class GetWeatherByPlace
-    implements UseCase<PlaceWeather, GetWeatherByPlaceParams> {
+    implements UseCase<CoordinatesWeather, GetWeatherByPlaceParams> {
   WeatherRepository weatherRepository;
 
   GetWeatherByPlace({required this.weatherRepository});
 
   @override
-  Future<Either<Failure, PlaceWeather>> call(
+  Future<Either<Failure, CoordinatesWeather>> call(
       GetWeatherByPlaceParams params) async {
     return await weatherRepository.getWeatherByPlace(
         lat: params.lat, lon: params.lon);

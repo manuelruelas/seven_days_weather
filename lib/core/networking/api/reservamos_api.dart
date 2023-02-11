@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 class ReservamosApi {
   final dio = createDio();
@@ -11,7 +12,7 @@ class ReservamosApi {
 
   static Dio createDio() {
     var dio = Dio(BaseOptions(
-      baseUrl: "https://search.reservamos.mx/api/v2",
+      baseUrl: dotenv.get("RESERVAMOS_API_URL"),
       receiveTimeout: 15000, // 15 seconds
       connectTimeout: 15000,
       sendTimeout: 15000,

@@ -1,8 +1,8 @@
 import 'package:seven_days_weather/domain/entities/current_weather.dart';
 import 'package:seven_days_weather/domain/entities/daily_weather.dart';
 
-class PlaceWeather {
-  PlaceWeather({
+class CoordinatesWeather {
+  CoordinatesWeather({
     required this.lat,
     required this.lon,
     required this.timezone,

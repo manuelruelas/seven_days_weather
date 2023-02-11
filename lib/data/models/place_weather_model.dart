@@ -2,8 +2,8 @@ import 'package:seven_days_weather/domain/entities/current_weather.dart';
 import 'package:seven_days_weather/domain/entities/daily_weather.dart';
 import 'package:seven_days_weather/domain/entities/place_weather.dart';
 
-class PlaceWeatherModel extends PlaceWeather {
-  PlaceWeatherModel({
+class CoordinatesWeatherModel extends CoordinatesWeather {
+  CoordinatesWeatherModel({
     required double lat,
     required double lon,
     required String timezone,
@@ -18,8 +18,8 @@ class PlaceWeatherModel extends PlaceWeather {
             current: current,
             daily: daily);
 
-  factory PlaceWeatherModel.fromJson(Map<String, dynamic> json) =>
-      PlaceWeatherModel(
+  factory CoordinatesWeatherModel.fromJson(Map<String, dynamic> json) =>
+      CoordinatesWeatherModel(
         lat: json["lat"]?.toDouble(),
         lon: json["lon"]?.toDouble(),
         timezone: json["timezone"],

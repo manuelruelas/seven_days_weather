@@ -27,7 +27,9 @@ class Place {
   String country;
   String lat;
   String long;
-  String resultType;
+  PlaceType resultType;
   String popularity;
   double sortCriteria;
 }
+
+enum PlaceType { city, terminal, airport }

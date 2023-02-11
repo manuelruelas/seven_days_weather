@@ -10,7 +10,7 @@ class WeatherRepositoryImpl implements WeatherRepository {
   WeatherRepositoryImpl({required this.weatherRemoteDatasource});
 
   @override
-  Future<Either<Failure, PlaceWeather>> getWeatherByPlace(
+  Future<Either<Failure, CoordinatesWeather>> getWeatherByPlace(
       {required double lat, required double lon}) async {
     try {
       final placeWeather =
