@@ -51,7 +51,7 @@ class DailyWeather {
         sunset: json["sunset"],
         moonrise: json["moonrise"],
         moonset: json["moonset"],
-        moonPhase: json["moon_phase"],
+        moonPhase: json["moon_phase"].toDouble(),
         temp: Temperature.fromJson(json["temp"]),
         pressure: json["pressure"],
         humidity: json["humidity"],
